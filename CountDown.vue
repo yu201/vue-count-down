@@ -1,6 +1,8 @@
 <template>
   <div>
-    <span class="text">{{hour}}</span><span>:</span><span class="text">{{minute}}</span><span>:</span><span class="text">{{second}}</span>
+    <span class="text" :style="{ backgroundColor: bgColor, color: color }">{{hour}}</span><span>:</span><span
+    class="text" :style="{ backgroundColor: bgColor, color: color }">{{minute}}</span><span>:</span><span
+    class="text" :style="{ backgroundColor: bgColor, color: color }">{{second}}</span>
   </div>
 </template>
 
@@ -8,7 +10,13 @@
   export default {
     props: {
       date: {
-        default: new Date().getTime() + (3 * 60 * 60 * 1000)
+        default: new Date()
+      },
+      bgColor: {
+        default: '#000000'
+      },
+      color: {
+        default: '#FFFFFF'
       }
     },
     data () {
@@ -16,17 +24,23 @@
         hour: '00',
         minute: '00',
         second: '00',
-        count: this.date - new Date().getTime()
+        count: this.date - new Date().getTime(),
+        interval: null
       }
     },
-    created () {
+    mounted () {
       this.start()
     },
     methods: {
       start () {
-        setInterval(() => {
+        this.interval = setInterval(() => {
           this.count = this.count - 1000
-
+          if (this.count <= 0) {
+            this.second = '00'
+            clearInterval(this.interval)
+            this.timeDown()
+            return
+          }
           this.hour = parseInt(this.count / (60 * 60 * 1000)) + ''
           if (this.hour < 10) {
             this.hour = '0' + this.hour
@@ -37,11 +51,14 @@
             this.minute = '0' + this.minute
           }
           let n2 = n % (60 * 1000)
-          this.second = parseInt(n2 / 1000) + ''
+          this.second = Math.ceil(n2 / 1000) + ''
           if (this.second < 10) {
             this.second = '0' + this.second
           }
         }, 1000)
+      },
+      timeDown () {
+        this.$emit('timeDown')
       }
     },
     computed: {}
@@ -49,7 +66,7 @@
 </script>
 
 <style scoped>
-  .text{
+  .text {
     background-color: #000000;
     color: #ffffff;
     padding: 3px 2px;
