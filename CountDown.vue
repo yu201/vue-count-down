@@ -1,7 +1,7 @@
 <template>
   <div>
-    <span class="text" :style="{ backgroundColor: bgColor, color: color }">{{hour}}</span><span>:</span><span
-    class="text" :style="{ backgroundColor: bgColor, color: color }">{{minute}}</span><span>:</span><span
+    <span class="text" :style="{ backgroundColor: bgColor, color: color }">{{hour}}</span><span :style="{ color: bgColor }">:</span><span
+    class="text" :style="{ backgroundColor: bgColor, color: color }">{{minute}}</span><span :style="{ color: bgColor }">:</span><span
     class="text" :style="{ backgroundColor: bgColor, color: color }">{{second}}</span>
   </div>
 </template>
