@@ -51,7 +51,7 @@
             this.minute = '0' + this.minute
           }
           let n2 = n % (60 * 1000)
-          this.second = Math.ceil(n2 / 1000) + ''
+          this.second = parseInt(n2 / 1000) + ''
           if (this.second < 10) {
             this.second = '0' + this.second
           }
